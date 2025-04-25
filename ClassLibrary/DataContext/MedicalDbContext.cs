@@ -14,10 +14,10 @@ namespace ClassLibrary.DataContext
         public MedicalDbContext(DbContextOptions<MedicalDbContext> options) : base(options) { }
 
         public const string CONNECTION_STRING = @"
-         Host=positively-grounded-tenpounder.data-1.euc1.tembo.io;
+         Host=superbly-enlivening-tenpounder.data-1.euc1.tembo.io;
          Port=5432;
          Username=postgres;
-         Password=R2pFPK8q95GlSypK;
+         Password=YO3nCg4nDTP6PB6N;
          Database=postgres
         ";
 
