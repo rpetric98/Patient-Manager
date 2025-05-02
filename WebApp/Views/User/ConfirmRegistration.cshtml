@@ -1,0 +1,21 @@
+﻿@model WebApp.Models.UserVM
+
+<h2>Confirm your details.</h2>
+
+<p><strong>Username:</strong> @Model.UserName</p>
+<p><strong>First Name:</strong> @Model.FirstName</p>
+<p><strong>Last Name:</strong> @Model.LastName</p>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Phone:</strong> @Model.PhoneNumber</p>
+
+<form method="post" asp-action="CompletedRegistration">
+    <input type="hidden" asp-for="UserName" />
+    <input type="hidden" asp-for="FirstName" />
+    <input type="hidden" asp-for="LastName" />
+    <input type="hidden" asp-for="Email" />
+    <input type="hidden" asp-for="PhoneNumber" />
+    <input type="hidden" asp-for="Password" />
+
+    <button type="submit" class="btn btn-primary">Confirm</button>
+    <a asp-action="Register" class="btn btn-danger">Cancel</a>
+</form>

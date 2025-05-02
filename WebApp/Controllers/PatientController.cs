@@ -22,14 +22,14 @@ namespace WebApp.Controllers
 
 
         //GET: Patient
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string searchString)
         {
-            ViewData["CurrentFilter"] = search;
+            ViewData["CurrentFilter"] = searchString;
             IQueryable<Patient> patients = _context.Patients;
 
-            if (!String.IsNullOrEmpty(search))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                patients = patients.Where(p => p.OIB.Contains(search) || p.LastName.Contains(search));
+                patients = patients.Where(p => p.OIB.Contains(searchString) || p.LastName.Contains(searchString));
             }
 
             var patientList = await patients.ToListAsync();

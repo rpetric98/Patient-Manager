@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var user = this.ViewContext.HttpContext.User;
+    string username = "";
+    string userRole = "";
+    bool loggedIn = false;
+    bool hideNavbar = ViewData["HideNavbar"] != null && (bool)ViewData["HideNavbar"];
+
+    if (!string.IsNullOrEmpty(user.Identity?.Name) && user != null)
+    {
+        loggedIn = true;
+        username = user.Identity.Name.ToUpper();
+        userRole = user.IsInRole("Admin") ? "Admin" : "User";
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,10 +36,45 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (!loggedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="Index">Patients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="MedicalFile" asp-action="Index">Medical Files</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="MedicalRecord" asp-action="Index">Medical Records</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Examination" asp-action="Index">Examinations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Prescription" asp-action="Index">Prescriptions</a>
+                            </li>
+                        }
+                        @if (user.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                            </li>
+                        }
                     </ul>
+                    @if (loggedIn)
+                    {
+                        <div>
+                            <span class="badge bg-primary">@username</span>
+                            <span class="badge bg-secondary">@userRole</span>
+                            <a asp-controller="User" asp-action="Logout" class="btn btn-danger">Logout</a>    
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

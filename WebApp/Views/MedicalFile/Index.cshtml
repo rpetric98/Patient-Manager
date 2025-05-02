@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MedicalFileVM>
+@{
+    ViewData["Title"] = "Medical Files";
+}
+
+<h2>Medical Files</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExaminationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ExaminationId)</td>
+                <td>@Html.DisplayFor(modelItem => item.FilePath)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="DownloadFile" asp-route-id="@item.Id">Download</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

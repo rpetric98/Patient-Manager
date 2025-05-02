@@ -17,15 +17,4 @@
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Examination\" />
-    <Folder Include="Views\FileUpload\" />
-    <Folder Include="Views\MedicalRecord\" />
-    <Folder Include="Views\MedicalFile\" />
-    <Folder Include="Views\User\" />
-    <Folder Include="Views\Prescription\" />
-    <Folder Include="Views\Patient\" />
-  </ItemGroup>
-
 </Project>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebApp.Models.PatientVM>
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<h2>Patients</h2>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="searchString">Search by Last Name or OIB</label>
+        <input type="text" class="form-control" id="searchString" name="searchString" value="@ViewData["CurrentFilter"]" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<div class="mt-3">
+    <a asp-action="Create" class="btn btn-success">Create Patient</a>
+</div>
+
+@if (ViewData["CurrentFilter"] != null)
+{
+    if (!Model.Any())
+    {
+        <p>No patients found. Please enter a correct term</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().OIB)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().DateOfBirth)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Gender)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OIB)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.PatientId">Details</a> |
+                            <a asp-action="Edit" asp-route-id="@item.PatientId">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PatientId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

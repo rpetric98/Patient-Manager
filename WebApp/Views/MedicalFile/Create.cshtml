@@ -1,0 +1,59 @@
+﻿@model MedicalFileVM
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form asp-controller="MedicalFile" asp-action="Create" method="post" enctype="multipart/form-data" id="createForm">
+    <div class="form-group">
+        <label asp-for="ExaminationId" class="control-label"></label>
+        <input asp-for="ExaminationId" class="form-control" />
+        <span asp-validation-for="ExaminationId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload file</p>
+            <input type="file" name="fileInpu" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="FilePath" id="filePath" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <br />
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('createForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const file = document.getElementById('fileInput');
+            if (file.files.length > 0) {
+                const formData = new FormData();
+                formData.append('file', file.files[0]);
+
+                const response = await fetch('/MedicalFile/UploadFile', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('filePath').value = result.filePath;
+                    this.submit(); // Submit the form after setting the file path
+                } else {
+                    console.error('File upload failed');
+                }
+            } else {
+                alert('Please select a file to upload.');   
+            }
+        }
+    </script>
+}
