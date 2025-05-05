@@ -74,6 +74,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var examinationExists = await _context.Examinations.AnyAsync(e => e.Id == medicalFileVM.ExaminationId);
+                if (!examinationExists)
+                {
+                    ModelState.AddModelError("ExaminationId", "Examination not found");
+                    return View(medicalFileVM);
+                }
                 var newMedicalFile = new MedicalFile
                 {
                     ExaminationId = medicalFileVM.ExaminationId,
@@ -122,6 +128,12 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                var examinationExists = await _context.Examinations.AnyAsync(e => e.Id == medicalFileVM.ExaminationId);
+                if (!examinationExists)
+                {
+                    ModelState.AddModelError("ExaminationId", "Examination not found");
+                    return View(medicalFileVM);
+                }
                 try
                 {
                     var existingMedicalFile = await _context.MedicalFiles.FindAsync(id);

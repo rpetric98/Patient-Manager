@@ -93,20 +93,27 @@ namespace WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, User user)
+        public async Task<IActionResult> Edit(int id, IFormCollection form)
         {
-            if (id != user.UserId)
+            var existingUser = await _userService.GetUserByIdAsync(id);
+            if (existingUser == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            if (ModelState.IsValid)
-            { 
-                await _userService.UpdateUserAsync(user);
-                TempData["SuccessMessage"] = "User updated successfully!";
-                return RedirectToAction("Index");
+            existingUser.UserName = form["UserName"];
+            existingUser.Email = form["Email"];
+            existingUser.RoleId = int.Parse(form["RoleId"]);
+
+            if (string.IsNullOrWhiteSpace(existingUser.UserName) || string.IsNullOrWhiteSpace(existingUser.Email))
+            {
+                ModelState.AddModelError("", "Username and Email are required.");
+                return View(existingUser);
             }
-            return View(user);
+
+            await _userService.UpdateUserAsync(existingUser);
+            return RedirectToAction(nameof(Index));
+
         }
 
         //Delete user
@@ -125,7 +132,7 @@ namespace WebApp.Controllers
         { 
             await _userService.DeleteUserAsync(id);
             TempData["SuccessMessage"] = "User deleted successfully!";
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         //Show user details

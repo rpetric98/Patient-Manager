@@ -60,8 +60,14 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PatientVM patient)
         {
+            if (await _context.Patients.AnyAsync(p => p.OIB == patient.OIB))
+            {
+                ModelState.AddModelError("OIB", "A patient with this OIB already exists.");
+            }
+
             if (ModelState.IsValid)
             {
+
                 var newPatient = new Patient
                 {
                     FirstName = patient.FirstName,
@@ -112,7 +118,10 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
+            if (await _context.Patients.AnyAsync(p => p.OIB == patient.OIB))
+            {
+                ModelState.AddModelError("OIB", "A patient with this OIB already exists.");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -191,8 +200,8 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ExportToCSV(int id)
         { 
             var patient = await _context.Patients
-                .Include(p => p.Examinations)
                 .Include(p => p.MedicalRecords)
+                .Include(p => p.Examinations)     
                 .Include(p => p.Prescriptions)
                 .FirstOrDefaultAsync(p => p.Id == id);
 

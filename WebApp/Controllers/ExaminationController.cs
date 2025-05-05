@@ -64,7 +64,13 @@ namespace WebApp.Controllers
             if (ModelState.IsValid)
             {
                 examinationVM.DateTime = DateTime.SpecifyKind(examinationVM.DateTime, DateTimeKind.Utc);
-
+                var patientExists = await _context.Patients.AnyAsync(p => p.Id == examinationVM.PatientId);
+                if (!patientExists)
+                {
+                    ModelState.AddModelError("PatientId", "The selected patient does not exist.");
+                    ViewBag.ExaminationTypes = ExaminationTypeDict.Description;
+                    return View(examinationVM);
+                }
                 var examination = new Examination
                 {
                     Date = examinationVM.DateTime,
@@ -117,8 +123,16 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                var patientExists = await _context.Patients.AnyAsync(p => p.Id == examinationVM.PatientId);
+                if (!patientExists)
+                {
+                    ModelState.AddModelError("PatientId", "The selected patient does not exist.");
+                    ViewBag.ExaminationTypes = ExaminationTypeDict.Description;
+                    return View(examinationVM);
+                }
                 try
                 {
+                 
                     var existingExamination = await _context.Examinations.FindAsync(id);
                     if (existingExamination == null)
                     {

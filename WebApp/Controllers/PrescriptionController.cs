@@ -48,6 +48,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var patientExists = await _context.Patients.AnyAsync(p => p.Id == prescriptionVM.PatientId);
+                if (!patientExists)
+                {
+                    ModelState.AddModelError("PatientId", "Patient does not exist.");
+                    return View(prescriptionVM);
+                }
                 var prescription = new Prescription
                 {
                     PatientId = prescriptionVM.PatientId,
@@ -93,11 +99,19 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                var patientExists = await _context.Patients.AnyAsync(p => p.Id == prescriptionVM.PatientId);
+                if (!patientExists)
+                {
+                    ModelState.AddModelError("PatientId", "Patient does not exist.");
+                    return View(prescriptionVM);
+                }
+
                 var prescription = await _context.Prescriptions.FindAsync(id);
                 if (prescription == null)
                 {
                     return NotFound();
                 }
+           
 
                 prescription.PatientId = prescriptionVM.PatientId;
                 prescription.Medication = prescriptionVM.MedicineName;

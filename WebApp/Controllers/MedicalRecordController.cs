@@ -22,6 +22,7 @@ namespace WebApp.Controllers
                 {
                     Id = m.Id,
                     PatientId = m.PatientId,
+                    DiseaseName = m.Disease,
                     StartDate = m.StartDate,
                     EndDate = m.EndDate
                 }).ToListAsync();
@@ -45,6 +46,12 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MedicalRecordVM medicalRecordVM)
         {
+            var patientExists = await _context.Patients.AnyAsync(p => p.Id == medicalRecordVM.PatientId);
+            if (!patientExists)
+            {
+                ModelState.AddModelError("PatientId", "Patient does not exist.");
+                return View(medicalRecordVM);
+            }
             if (ModelState.IsValid)
             {
                 var medicalRecord = new MedicalRecord
@@ -99,6 +106,13 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                var patientExists = await _context.Patients.AnyAsync(p => p.Id == medicalRecordVM.PatientId);
+                if(!patientExists)
+                {
+                    ModelState.AddModelError("PatientId", "Patient does not exist.");
+                    return View(medicalRecordVM);
+                }
+
                 try
                 {
                     var medicalRecord = await _context.MedicalRecords.FindAsync(id);

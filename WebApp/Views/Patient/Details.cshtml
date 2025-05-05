@@ -45,7 +45,7 @@
 <div>
     <h4>
         Medical Record
-        <a asp-action="Create" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Medical File</a>
+        <a asp-action="Create" asp-controller="MedicalRecord" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Medical Record</a>
     </h4>
     <hr />
     <ul>
@@ -59,20 +59,20 @@
 <div>
     <h4>
         Examinations
-        <a asp-action="Create" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Examination</a>
+        <a asp-action="Create" asp-controller="Examination" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Examination</a>
     </h4>
     <hr />
     <ul>
         @foreach (var examination in Model.Examinations)
         {
-            <li>@examination.DateTime.ToShortDateString(), @ViewBag.ExaminationType[examination.ExaminationType]</li>
+            <li>@examination.DateTime.ToShortDateString(), @ViewBag.ExaminationTypes[examination.ExaminationType]</li>
         }
     </ul>
 </div>
 <div>
     <h4>
         Prescriptions
-        <a asp-action="Create" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Prescription</a>
+        <a asp-action="Create" asp-controller="Prescription" asp-route-id="@Model.PatientId" class="btn btn-primary">Add Prescription</a>
     </h4>
     <hr />
     <ul>

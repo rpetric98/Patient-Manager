@@ -17,7 +17,7 @@ namespace ClassLibrary.Utilities
             }
 
             var csv = new StringBuilder();
-            csv.AppendLine("Id,FirstName,LastName,Gender,OIB,DateOfBirth,Examinations,MedicalRecords,Prescriptions");
+            csv.AppendLine("Id,FirstName,LastName,OIB,Gender,DateOfBirth,Examinations,MedicalRecords,Prescriptions");
 
             foreach (var patient in patients)
             {
@@ -25,7 +25,7 @@ namespace ClassLibrary.Utilities
                 var examinations = string.Join(";", patient.Examinations.Select(ex => $"{ex.Type} ({ex.Date.ToShortDateString()})"));
                 var prescriptions = string.Join(";", patient.Prescriptions.Select(pr => $"{pr.Medication} ({pr.Dosage})"));
 
-                csv.AppendLine($"{patient.Id},{patient.FirstName},{patient.LastName},{patient.OIB},{patient.DateOfBirth.ToShortDateString()},{patient.Gender},{medicalRecords},{examinations},{prescriptions}");
+                csv.AppendLine($"{patient.Id},{patient.FirstName},{patient.LastName},{patient.OIB},{patient.Gender},{patient.DateOfBirth.ToShortDateString()},{medicalRecords},{examinations},{prescriptions}");
             }
 
             return csv.ToString();

@@ -35,15 +35,17 @@
                     <th>
                         @Html.DisplayNameFor(model => model.First().LastName)
                     </th>
-                    <th>
+                       <th>
                         @Html.DisplayNameFor(model => model.First().OIB)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().DateOfBirth)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.First().Gender)
                     </th>
+                 
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().DateOfBirth)
+                    </th>
+                    
                     <th></th>
                 </tr>
             </thead>
@@ -57,15 +59,17 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.LastName)
                         </td>
-                        <td>
+                           <td>
                             @Html.DisplayFor(modelItem => item.OIB)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateOfBirth)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Gender)
                         </td>
+                     
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                        </td>
+                      
                         <td>
                             <a asp-action="Details" asp-route-id="@item.PatientId">Details</a> |
                             <a asp-action="Edit" asp-route-id="@item.PatientId">Edit</a> |

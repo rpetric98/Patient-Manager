@@ -5,7 +5,7 @@
 
 <h2>Edit Medical Record</h2>
 
-<form>
+<form asp-action="Edit">
     <input asp-for="Id" type="hidden" />
     <div class="form-group">
         <label asp-for="DiseaseName" class="control-label"></label>
@@ -30,4 +30,7 @@
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
+<div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
 </form>

@@ -9,10 +9,12 @@ namespace WebApp.Models
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Lastname is required")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "OIB is required")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "OIB must be 11 digits long")]
+        public string OIB { get; set; }
         [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; }
-        [Required(ErrorMessage = "OIB is required")]
-        public string OIB { get; set; }
         [Required(ErrorMessage = "Date of birth is required")]
         public DateTime DateOfBirth { get; set; }
         public ICollection<ExaminationVM> Examinations { get; set; } = new List<ExaminationVM>();

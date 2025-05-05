@@ -41,13 +41,13 @@ namespace ClassLibrary.Services
 
         public async Task DeleteUserAsync(int userId)
         {
-            var user = _context.Users.Find(userId);
-            if (user == null)
+            var user = await _context.Users.FindAsync(userId);
+            if (user != null)
             {
-                throw new Exception("User not found");
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
             }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -77,9 +77,9 @@ namespace ClassLibrary.Services
             }
         }
 
-        public Task UpdateUserAsync(User user)
+        public async Task UpdateUserAsync(User user)
         {
-            var existingUser = _context.Users.Find(user.UserId);
+            var existingUser = await _context.Users.FindAsync(user.UserId);
             if (existingUser == null)
             {
                 throw new Exception("User not found");
@@ -93,8 +93,9 @@ namespace ClassLibrary.Services
             existingUser.PhoneNumber = user.PhoneNumber;
             existingUser.RoleId = user.RoleId;
             existingUser.Role = user.Role;
+
             _context.Users.Update(existingUser);
-            return _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

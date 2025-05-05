@@ -1,7 +1,7 @@
 ﻿@model WebApp.Models.ExaminationVM
 @{
     ViewData["Title"] = "Edit";
-    var examinationType = ViewBag.ExaminationType as Dictionary<ClassLibrary.Enums.ExaminationType, string>
+    var examinationType = ViewBag.ExaminationTypes as Dictionary<ClassLibrary.Enums.ExaminationType, string>
     ?? new Dictionary<ClassLibrary.Enums.ExaminationType, string>();
 }
 
@@ -20,10 +20,11 @@
             <div class="form-group">
                 <label asp-for="ExaminationType" class="control-label"></label>
                 <select asp-for="ExaminationType" class="form-control">
-                    <option value="">Select Examination Type</option>
                     @foreach (var item in examinationType)
                     {
-                        <option value="@item.Key">@item.Value</option>
+                        <option value="@item.Key" selected="@(item.Key == Model.ExaminationType ? "selected" : null)">
+                            @item.Value
+                        </option>
                     }
                 </select>
                 <span asp-validation-for="ExaminationType" class="text-danger"></span>
@@ -31,6 +32,7 @@
             <div class="form-group">
                 <label asp-for="PatientId" class="control-label"></label>
                 <input asp-for="PatientId" class="form-control" />
+                <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary"/>

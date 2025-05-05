@@ -1,8 +1,8 @@
 services:
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
+  # mongo:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"
   minio:
     image: minio/minio
     ports:
@@ -12,19 +12,19 @@ services:
       MINIO_ROOT_USER: rpetric
       MINIO_ROOT_PASSWORD: Renato55?
     command: server --console-address ":9001" /data
-  db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: 123
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  adminer:
-    image: adminer
-    ports:
-      - "8081:8081"
+  # db:
+  #   image: mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 123
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  # adminer:
+  #   image: adminer
+  #   ports:
+  #     - "8081:8081"
 #  Uncomment for running in docker container
  # popper_server:
  #   build:

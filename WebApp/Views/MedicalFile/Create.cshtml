@@ -15,7 +15,7 @@
     <div class="form-group">
         <div class="col-md-10">
             <p>Upload file</p>
-            <input type="file" name="fileInpu" class="form-control" />
+            <input type="file" name="file" id="fileInput" />
         </div>
     </div>
     <div class="form-group">
@@ -27,6 +27,9 @@
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
     </div>
+<div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
 </form>
 
 @section Scripts {
@@ -34,10 +37,10 @@
         document.getElementById('createForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            const file = document.getElementById('fileInput');
-            if (file.files.length > 0) {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
                 const formData = new FormData();
-                formData.append('file', file.files[0]);
+                formData.append('formFile', fileInput.files[0]);
 
                 const response = await fetch('/MedicalFile/UploadFile', {
                     method: 'POST',
@@ -47,13 +50,13 @@
                 if (response.ok) {
                     const result = await response.json();
                     document.getElementById('filePath').value = result.filePath;
-                    this.submit(); // Submit the form after setting the file path
+                    this.submit();
                 } else {
-                    console.error('File upload failed');
+                    alert('File upload failed.');
                 }
             } else {
-                alert('Please select a file to upload.');   
+                this.submit();
             }
-        }
+        });
     </script>
 }
